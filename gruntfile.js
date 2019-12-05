@@ -1,5 +1,3 @@
-const sass = require('node-sass');
-
 module.exports = grunt => {
 
 	require('load-grunt-tasks')(grunt);
