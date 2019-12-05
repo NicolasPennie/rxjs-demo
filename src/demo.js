@@ -1,3 +1,4 @@
+// Demo observer
 const observer = {
     next: val => doSomething(val),
     error: e => handleError(e),
@@ -9,8 +10,12 @@ class Observable {
         this.subscribe = handleObserver;
     }
 
+    /**
+     * Transforms an observable into another observable based on the provided operators.
+     * @param  {...Function} operators Functions that transform one observable into another.
+     */
     pipe(...operators) {
-        if (operators.length === 1) {
+        if (operators.length === 0) {
             return this;
         }
 
@@ -25,10 +30,18 @@ class Subscription {
 }
 
 /* Operators */
+
+/**
+ * Unity operator.
+ */
 function noop() {
     return observable => observable;
 }
 
+/**
+ * Generates a new observable that will project the original values according to the provided mapping function.
+ * @param {Function} fn Mapping function.
+ */
 function map(fn) {
     return observable => new Observable(({ next, error, complete }) => {
         const sink = observable.subscribe({
@@ -50,13 +63,15 @@ const obs$ = new Observable(({ next, error, complete }) => {
     return new Subscription(() => clearInterval(timer));
 });
 
-// hot observable
+// hot observable example
+/* WebSocket will not work with Node
 const socket = new WebSocket('ws://mysocket');
 const hot$ = new Observable(({ next, error, complete }) => {
     const handleMessage = e => next(e);
     socket.addEventListener('message', handleMessage);
     return new Subscription(() => socket.removeEventListener('message', handleMessage));
 });
+*/
 
 // chained observable
 const chained$ = obs$.pipe(

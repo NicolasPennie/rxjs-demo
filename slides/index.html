@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>RxJS - Under the Hood</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/custom.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section id="1" data-markdown>
+						<textarea data-template>
+							## RxJS Under the Hood
+												
+							<image src="https://rxjs-dev.firebaseapp.com/generated/images/marketing/home/Rx_Logo-512-512.png" width="250"></image>
+							<br/><br/>
+
+							GitHub - [NicolasPennie](https://github.com/NicolasPennie)
+
+							Twitter - [@nick_pennie](https://twitter.com/nick_pennie)
+						</textarea>
+				</section>
+
+				<section id="2">
+					<section>
+						So what is RxJS and why do I care?
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+							According to the docs...
+							> RxJS is a library for reactive programming using Observables, to make it easier to compose asynchronous or callback-based code.
+						</textarea>
+					</section>
+					<section data-markdown>
+						Personally, I find RxJS much easier to understand through examples...
+					</section>
+				</section>
+
+				<section id="3">
+					<section data-markdown>
+						Imagine we had an HTTP client that returns an Observable of a GET request...
+						<pre><code data-trim data-noescape>
+							const users$ = http.get('api/users');
+						</code></pre>
+					</section>
+					<section data-markdown>
+						We can subscribe to that observable and provide a callback handler to process the result:
+						<pre><code data-trim data-noescape>
+							users$.subscribe(users => updateUsers(users));
+						</code></pre>
+					</section>
+					<section data-markdown>
+						We can also transform the Observable through the `pipe` method:
+						<pre><code data-trim data-noescape>
+							const todd$ = http.get('api/users').pipe(
+								map(users => users.find(x => x.name === 'Todd'))
+							);
+						</code></pre>
+					</section>
+				</section>
+
+				<section id="4">
+					<section>
+						You can create some really awesome, complex data pipelines with RxJS.
+					</section>
+					<section>
+						Even though it handles really complicated scenarios, the way it works is actually quite simple!
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
